@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-import data from "./data.js";
-import videos from "./dbModel.js";
+import Data from "./data.js";
+import Videos from "./dbModel.js";
 
 // app config
 const app = express();
@@ -26,9 +26,9 @@ mongoose.connect(connection_url, {
 
 // api endpoints
 app.get("/", (req, res) => res.status(200).send("Hello World"));
-app.get("/v1/posts", (req, res) => res.status(200).send(data));
+app.get("/v1/posts", (req, res) => res.status(200).send(Data));
 app.get("/v2/posts", (req, res) => {
-  videos.find((err, data) => {
+  Videos.find((err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -36,9 +36,10 @@ app.get("/v2/posts", (req, res) => {
     }
   });
 });
+
 app.post("/v2/posts", (req, res) => {
   const dbVideos = req.body;
-  videos.create(dbVideos, (err, data) => {
+  Videos.create(dbVideos, (err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {
